@@ -1,5 +1,6 @@
 import pandas as pd
 from bs4 import BeautifulSoup
+import csv
 
 
 # Removes htlm tags from a review
@@ -16,15 +17,37 @@ def reviews_remove_html(reviews):
     return reviews_no_html
 
 
-def main():
-    # read training data
-    train = pd.read_csv("../../data/raw/labeledTrainData.tsv", sep='\t')
-    reviews_cleaned = reviews_remove_html(train["review"])
+# Replace the data in the column column_name by new_data
+def df_replace_column(df, column_name, new_data):
+    df[column_name] = new_data
+    return df
 
-    # build clean train data
-    train_cleaned = pd.DataFrame({'id':  train["id"], 'sentiment': train['sentiment'], 'review': reviews_cleaned})
-    # write clean train data to csv
-    train_cleaned.to_csv("../../data/processed/labeledTrainData.tsv", sep='\t', index=False)
+
+# Read filepath
+def read_from_csv(filepath):
+    return pd.read_csv(filepath, sep='\t', quoting=3)
+
+
+# Write df to filepath
+def write_to_csv(df, filepath):
+    df.to_csv(filepath, sep='\t', quoting=3, index=False)
+
+
+# Read input_filenames in the input_folder, clean and write them to the output folder.
+def create_and_write_cleaned_data_files(input_folder, input_filenames, output_folder):
+    for filename in input_filenames:
+        input_filepath = input_folder + "/" + filename
+        output_filepath = output_folder + "/" + filename
+        df = read_from_csv(input_filepath)
+        df_cleaned = df_replace_column(df, 'review', reviews_remove_html(df["review"]))
+        write_to_csv(df_cleaned, output_filepath)
+
+
+def main():
+    input_filenames = ["labeledTrainData.tsv", "testData.tsv", "unlabeledTrainData.tsv"]
+    input_folder = "../../data/raw"
+    output_folder = "../../data/processed"
+    create_and_write_cleaned_data_files(input_folder, input_filenames, output_folder)
 
 
 if __name__ == "__main__":
