@@ -25,12 +25,12 @@ def df_replace_column(df, column_name, new_data):
 
 # Read filepath
 def read_from_csv(filepath):
-    return pd.read_csv(filepath, sep='\t', quoting=3)
+    return pd.read_csv(filepath, sep="\t", quoting=3)
 
 
 # Write df to filepath
 def write_to_csv(df, filepath):
-    df.to_csv(filepath, sep='\t', quoting=3, index=False)
+    df.to_csv(filepath, sep="\t", index=False, quoting=3)
 
 
 # Read input_filenames in the input_folder, clean and write them to the output folder.
@@ -44,6 +44,7 @@ def create_and_write_cleaned_data_files(input_folder, input_filenames, output_fo
 
 
 def main():
+    input_filenames = ["labeledTrainData.tsv", "testData.tsv", "unlabeledTrainData.tsv"]
     input_filenames = ["labeledTrainData.tsv", "testData.tsv", "unlabeledTrainData.tsv"]
     input_folder = "../../data/raw"
     output_folder = "../../data/processed"
