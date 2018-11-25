@@ -1,0 +1,11 @@
+name: popcorn-bag
+channels:
+  - conda-forge
+dependencies:
+  - numpy
+  - pandas
+  - matplotlib
+  - beautifulsoup4
+  - lxml
+  - nltk
+  - scikit-learn
