@@ -52,9 +52,16 @@ def clean_text(text):
     text = _apply_cleaning(text, _remove_stopwords, cleaning_log, 'remove_stopwords')
     # Merge.
     text = _apply_cleaning(text, _merge_sentences, cleaning_log, 'merge_sentences')
+    # Merge tokens.
+    text = _apply_cleaning(text, _merge_tokens, cleaning_log, '_merge_tokens')
 
     # Return cleaned text and cleaning log.
-    return text, cleaning_log
+    return text
+
+
+
+def _merge_tokens(tokens):
+    return " ".join([t[0] for t in tokens]).strip()
 
 
 # Removes htlm tags from a review
